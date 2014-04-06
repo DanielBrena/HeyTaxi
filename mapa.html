@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="css/jquery.mobile.flatui.css" />
+  <script src="js/jquery.js"></script>
+  <script src="js/jquery.mobile-1.4.0-rc.1.js"></script>
+
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+     
+     
+         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    
+	<script>
+// The following example creates complex markers to indicate beaches near
+// Sydney, NSW, Australia. Note that the anchor is set to
+// (0,32) to correspond to the base of the flagpole.
+
+function initialize() {
+  var mapOptions = {
+    zoom: 13,
+    center: new google.maps.LatLng(17.062174, -96.725914)
+  }
+  var map = new google.maps.Map(document.getElementById('map-canvas'),
+                                mapOptions);
+
+
+
+// Try HTML5 geolocation
+  if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = new google.maps.LatLng(position.coords.latitude,
+                                       position.coords.longitude);
+
+      var infowindow = new google.maps.InfoWindow({
+        map: map,
+        position: pos,
+        content: 'ubicacón'
+      });
+
+      map.setCenter(pos);
+    }, function() {
+      handleNoGeolocation(true);
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleNoGeolocation(false);
+  }
+
+
+
+
+
+
+  setMarkers(map, beaches);
+}
+
+/**
+ * Data for the markers consisting of a name, a LatLng and a zIndex for
+ * the order in which these markers should display on top of each
+ * other.
+ */
+var beaches = [
+  ['5 de Febrero', 17.081625, -96.718890, 1],
+  ['5 de Febrero', 17.082715, -96.718543, 2],
+  ['ALDAMA Y A.D.O.', 17.071091, -96.716741, 3],
+  ['ALAMEDA', 17.062174, -96.725914, 4],
+  ['CONSTITUCION A.C.', 17.063644, -96.733149, 5],
+  ['GRUPO TAXI TOUR PLUS', 17.069162, -96.722258, 6],
+  ['LIBERTAD OAXACA A.C.', 17.050742, -96.725710, 7],
+  ['MAYORDOMO A.C.', 17.055375, -96.726045, 8],
+  ['SITIO OLIMPICO A.C.', 17.084007, -96.696822, 9],
+  ['SITIO PRESIDENTE A.C.', 17.063998, -96.723120, 10],
+  ['SITIO SAN PABLO', 17.080613, -96.713873, 11],
+  ['SITIO VILLA DEL MARQUEZ A.C.', 17.072835, -96.721633, 12],
+  ['SITIO VILLA DEL MARQUEZ A.C.', 17.072069, -96.721027, 13],
+  ['SITIO 7 PRINCIPES A.C.', 17.058631, -96.712747, 14],
+];
+
+var image = {
+    url: 'img/taxi-icon.png',
+    // This marker is 20 pixels wide by 32 pixels tall.
+    size: new google.maps.Size(32, 37),
+    // The origin for this image is 0,0.
+    origin: new google.maps.Point(0,0),
+    // The anchor for this image is the base of the flagpole at 0,32.
+    anchor: new google.maps.Point(0, 32)
+  };
+
+function setMarkers(map, locations) {
+  // Shapes define the clickable region of the icon.
+  // The type defines an HTML &lt;area&gt; element 'poly' which
+  // traces out a polygon as a series of X,Y points. The final
+  // coordinate closes the poly by connecting to the first
+  // coordinate.
+ var shape = {
+      coord: [1, 1, 1, 20, 18, 20, 18 , 1],
+      type: 'poly'
+  };
+  for (var i = 0; i < locations.length; i++) {
+    var beach = locations[i];
+    var myLatLng = new google.maps.LatLng(beach[1], beach[2]);
+    var marker = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+        icon: image,
+        shape: shape,
+        title: beach[0],
+        zIndex: beach[3]
+    });
+  }
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+</head>
+<body>
+  <div data-role="page" id="page1">
+
+    <div data-role="panel" id="panel" data-position="right" data-theme="e" data-display="push">
+    
+      <div data-role="collapsible-set" data-theme="a" data-content-theme="b">
+        <div data-role="collapsible" data-collapsed-icon="flat-settings" data-expanded-icon="flat-settings" data-collapsed="false">
+          <h3>CONFIGURACION</h3>
+           <select name="flip-1" id="flip-1" data-role="slider">
+        <option value="off">Off</option>
+        <option value="on" selected>On</option>
+      </select>
+        </div>
+        <div data-role="collapsible" data-collapsed-icon="flat-checkround" data-expanded-icon="flat-checkround">
+          <h3>MANUAL</h3>
+          <p>Instrucciones con fotos</p>
+        </div>
+        <div data-role="collapsible" data-collapsed-icon="flat-man" data-expanded-icon="flat-cross">
+          <h3>CREDITOS</h3>
+          <p>Emmanuel Mendez</p>
+        
+          <p>Daniel Brena</p>
+          
+          <p>Alejandro Guillen</p>
+          
+          <p>Javier Alonso</p>
+         
+        </div>
+      </div>
+      </div>
+
+    <div data-role="header">
+      <a href="" data-iconpos="notext" data-role="button"  title="Home"></a>
+      <h1>HeyTaxi!</h1>
+      <a data-iconpos="notext" href="#panel" data-role="button" data-icon="flat-menu"></a>
+    </div>
+
+    <div data-role="content" role="main" style="text-align:center" >
+    
+     <div id="map-canvas"></div>
+     
+<a href="sitio1.html"><button data-icon="flat-location" data-theme="e">Colonia Reforma</button>
+</a><a href="sitio2.html"><button data-icon="flat-location" data-theme="e">Dr. Mario Perez </button>
+</a><a href="sitio3.html"><button data-icon="flat-location" data-theme="e">Calz. Niños Heroes de Chapultepec</button>
+</a><a href="sitio4.html"><button data-icon="flat-location" data-theme="e">Colonia Centro</button>
+</a><a href="sitio5.html"><button data-icon="flat-location" data-theme="e">Calz. Madero</button>
+</a><a href="sitio6.html"><button data-icon="flat-location" data-theme="e">Colonia Centro</button>
+</a><a href="sitio7.html"><button data-icon="flat-location" data-theme="e">Hidalgo Mata</button>
+</a><a href="sitio8.html"><button data-icon="flat-location" data-theme="e">Bustamante</button>
+</a>     
+<a href="sitio9.html"><button data-icon="flat-location" data-theme="a">Unidad Habitacional Ricardo Flores Magon</button></a>
+<a href="sitio10.html"><button data-icon="flat-location" data-theme="e">Colonia Centro</button>
+</a><a href="sitio11.html"><button data-icon="flat-location" data-theme="e">Colonia Reforma</button>
+</a><a href="sitio12.html"><button data-icon="flat-location" data-theme="e">Diaz Quintas</button>
+</a><a href="sitio13.html"><button data-icon="flat-location" data-theme="e">Calz. Niños Heroes de Chapultepec</button>
+</a>
+<a href="sitio14.html"><button data-icon="flat-location" data-theme="e">Col. Artículo 123</button>
+</a>
+    
+  </div>
+  </div>
+
+  <div id="highlight"> </div>
+
+</body>
+</html>
